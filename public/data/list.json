@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "Mastering Closures in JavaScript",
+      "summary": "Closures are a core JavaScript concept that powers callbacks, higher-order functions, and state encapsulation.",
+      "content": "<h2>Introduction</h2><p>In JavaScript, a <strong>closure</strong> is formed when a function \"remembers\" its lexical scope even after it is executed outside of that scope. Closures are critical in functional programming and asynchronous patterns.</p><h2>Example</h2><pre><code>function counter() {\n  let count = 0;\n  return function increment() {\n    count++;\n    return count;\n  }\n}\nconst add = counter();\nconsole.log(add()); // 1\nconsole.log(add()); // 2</code></pre><h2>Why Closures Matter</h2><ul><li><strong>Data Privacy</strong>: Encapsulate state without exposing variables globally.</li><li><strong>Callbacks</strong>: Enable event-driven code.</li><li><strong>Functional Patterns</strong>: Useful in currying and higher-order functions.</li></ul><p>Closures are everywhere: in <em>React hooks</em>, <em>Node.js async callbacks</em>, and custom utility functions.</p>",
+      "image": "https://via.placeholder.com/600x300",
+      "author": "Ishwar",
+      "date": "2025-09-03",
+      "tags": ["javascript", "closures", "functions"]
+    },
+    {
+      "id": 2,
+      "title": "Angular Signals vs RxJS: A Complete Guide",
+      "summary": "Angular 16+ introduces Signals for reactivity. How do they compare with RxJS Observables?",
+      "content": "<h2>Signals in Angular</h2><p>Signals are <strong>reactive primitives</strong> that track state and notify consumers when the value changes. Unlike Observables, Signals are synchronous and easier to understand for local state.</p><pre><code>import { signal } from '@angular/core';\n\nconst count = signal(0);\ncount.set(count() + 1);\nconsole.log(count());</code></pre><h2>RxJS Observables</h2><p>RxJS is still the backbone of Angular for async data streams. It shines when working with HTTP requests, event streams, and complex state management.</p><pre><code>import { of } from 'rxjs';\n\nof(1, 2, 3).subscribe(val => console.log(val));</code></pre><h2>When to Use</h2><ul><li><strong>Signals</strong>: Local UI state, simple counters, form state.</li><li><strong>RxJS</strong>: Async calls, event streams, complex reactive logic.</li></ul><blockquote>Tip: Think of Signals as a simpler tool for component-level reactivity, and RxJS as a power tool for system-level reactive streams.</blockquote>",
+      "image": "https://via.placeholder.com/600x300",
+      "author": "Ishwar",
+      "date": "2025-09-03",
+      "tags": ["angular", "signals", "rxjs", "reactivity"]
+    },
+    {
+      "id": 3,
+      "title": "React Server Components Explained",
+      "summary": "React Server Components (RSC) reduce bundle size and improve performance by shifting rendering to the server.",
+      "content": "<h2>What Are Server Components?</h2><p>Server Components are React components that run on the <strong>server</strong> instead of the client. They never ship JavaScript to the browser, reducing the client bundle size significantly.</p><h2>Benefits</h2><ul><li>No unnecessary JS sent to the browser.</li><li>Faster load times.</li><li>Seamless data fetching on the server.</li></ul><h2>Example in Next.js</h2><pre><code>// Server Component\nexport default async function Posts() {\n  const res = await fetch('https://jsonplaceholder.typicode.com/posts');\n  const posts = await res.json();\n  return (\n    <ul>\n      {posts.map(p => <li key={p.id}>{p.title}</li>)}\n    </ul>\n  );\n}</code></pre><p>Server Components integrate perfectly with <strong>Next.js App Router</strong>, allowing hybrid apps with both server and client components.</p>",
+      "image": "https://via.placeholder.com/600x300",
+      "author": "Ishwar",
+      "date": "2025-09-03",
+      "tags": ["react", "server-components", "performance"]
+    },
+    {
+      "id": 4,
+      "title": "Next.js Middleware in Action",
+      "summary": "A deep dive into Next.js Middleware for authentication, redirects, and request handling.",
+      "content": "<h2>What is Middleware?</h2><p>Middleware in Next.js is code that runs <strong>before</strong> a request is completed. It’s executed at the Edge, making it super fast.</p><h2>Use Cases</h2><ul><li>Authentication & authorization</li><li>Geo-based content</li><li>Logging & metrics</li></ul><h2>Example</h2><pre><code>// middleware.ts\nimport { NextResponse } from 'next/server';\nexport function middleware(request) {\n  const token = request.cookies.get('auth');\n  if (!token) {\n    return NextResponse.redirect(new URL('/login', request.url));\n  }\n  return NextResponse.next();\n}</code></pre><p>Since Middleware runs at the Edge, it avoids cold starts and improves performance for global apps.</p>",
+     
+      "author": "Ishwar",
+      "date": "2025-09-03",
+      "tags": ["nextjs", "middleware", "authentication", "edge"]
+    },
+    {
+      "id": 5,
+      "title": "Frontend Architecture Best Practices in 2025",
+      "summary": "Designing scalable frontend applications requires the right mix of patterns and tools.",
+      "content": "<h2>Core Principles</h2><ul><li><strong>Componentization</strong>: Small, reusable, and testable components.</li><li><strong>State Management</strong>: Use the right tool (Signals, RxJS, Redux, Zustand, or Context API).</li><li><strong>Performance</strong>: Apply lazy loading, caching, and code splitting.</li><li><strong>Scalability</strong>: Use monorepos (Nx, Turborepo) for large projects.</li></ul><h2>Angular</h2><p>Angular enforces strong architecture with modules, DI, and RxJS.</p><h2>React</h2><p>React provides flexibility, but architecture discipline must come from the team.</p><h2>Next.js</h2><p>Next.js brings server-side rendering, edge functions, and hybrid rendering strategies.</p><blockquote>Rule: Choose conventions when the team is big (Angular). Choose flexibility when innovation matters (React/Next.js).</blockquote>",
+      "image": "https://via.placeholder.com/600x300",
+      "author": "Ishwar",
+      "date": "2025-09-03",
+      "tags": ["frontend", "angular", "react", "nextjs", "architecture"]
+    }
+  ]
+}
