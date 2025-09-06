@@ -19,7 +19,7 @@ function Home() {
     <section>
       {search && <p>Search results for : {search}</p>}
       <div className="py-2">
-        {filteredNotes.length === 0 && <p>No records found</p>}
+        {filteredNotes.length === 0 && <p>Please wait...</p>}
         {filteredNotes.map((item: Item) => (
           <CardView key={item._id} item={item} />
         ))}

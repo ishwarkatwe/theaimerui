@@ -7,6 +7,7 @@ import About from "./components/pages/about";
 import AddPost from "./components/pages/add-post";
 import Account from "./components/pages/account";
 import Login from "./components/pages/Login";
+import ProtectedRoute from "./components/common/protectedRoute";
 
 function App() {
   return (
@@ -18,8 +19,22 @@ function App() {
           <Route path="/note/:noteId" element={<Note />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/add-post" element={<AddPost />} />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-post"
+            element={
+              <ProtectedRoute>
+                <AddPost />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Wrapper>
     </BrowserRouter>

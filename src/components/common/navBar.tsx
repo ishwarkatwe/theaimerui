@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, User } from "lucide-react";
@@ -41,6 +41,8 @@ export default function Navbar() {
   const setSearch = useStore((state: any) => state.setSearch);
   const setNotes = useStore((state: any) => state.setNotes);
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const getData = async () => {
@@ -48,21 +50,33 @@ export default function Navbar() {
       setNotes(res.data);
 
       const user = await fetchUser();
-      if (user) {
+      if (!Boolean(user?.error)) {
         setUser(user);
       } else {
-        navigate("/login", { replace: true });
+        setUser(null);
+        localStorage.removeItem("token");
+
+        if (["account", "add-post"].includes(currentPath)) {
+          navigate("/login", { replace: true });
+        }
       }
     };
 
     getData();
 
     return () => {};
-  }, [search]);
+  }, []);
 
   function redirect(path: string) {
     navigate(`/${path}`, { replace: true });
   }
+
+  const onSearch = (e: any) => {
+    setSearch(e.target.value);
+    if (currentPath.indexOf("note/") !== -1) {
+      navigate("/");
+    }
+  };
 
   return (
     <nav className="w-full bg-white border-b shadow-sm fixed top-0 left-0 z-50">
@@ -87,16 +101,16 @@ export default function Navbar() {
             type="text"
             placeholder="Search"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={onSearch}
           />
         </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:text-blue-600 flex items-center gap-2 capitalize">
-            <User /> {user ? user.username : "Guest user"}
+            <User /> {user !== null ? user.username : "Guest user"}
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {user ? (
+            {user !== null ? (
               <>
                 <DropdownMenuLabel onClick={() => redirect("account")}>
                   My Account
@@ -142,7 +156,7 @@ export default function Navbar() {
                   type="text"
                   placeholder="Search"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={onSearch}
                 />
               </div>
             </SheetContent>

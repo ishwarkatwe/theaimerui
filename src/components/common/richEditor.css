@@ -1,0 +1,10 @@
+.ql-code-block-container {
+  background: #303030;
+  color: #fff87e;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.ql-code-block-container .ql-code-block {
+  text-indent: 2em; /* Indents the first line of paragraphs by 2 ems */
+}

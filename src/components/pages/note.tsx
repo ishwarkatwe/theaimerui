@@ -1,16 +1,47 @@
 import { useParams } from "react-router-dom";
-import useStore from "../utils/states/notes";
 import type { Item } from "../utils/interface/Items";
 import { useEffect, useState } from "react";
 import CardImage from "../common/cardImage";
 import CardActions from "../common/cardActions";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { API_ADD_POST } from "../utils/constants/endpoints";
+
+const fetchNote = async () => {
+  const res = await fetch(`${API_ADD_POST}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+    },
+  });
+
+  return await res.json();
+};
 
 function Note() {
   const noteId = useParams().noteId;
-  const notes: Item[] = useStore((state: any) => state.notes);
-  const note = (notes || []).find((n) => n._id === noteId) as Item;
+  const [loader, setLoader] = useState(false);
+  const [note, setNote] = useState<Item>();
+
+  async function fetch() {
+    setLoader(true);
+    const data = await fetchNote();
+    setLoader(false);
+
+    return data.data;
+  }
+
+  useEffect(() => {
+    (async () => {
+      const notes: Item[] = await fetch();
+      const note = (notes || []).find((n) => n._id === noteId) as Item;
+      setNote(note);
+    })();
+  }, [noteId]);
+
+  // const notes: Item[] = useStore((state: any) => state.notes);
+  // const note = (notes || []).find((n) => n._id === noteId) as Item;
   const [comment, setComment] = useState("");
   const [commentList, setCommentList] = useState<
     {
@@ -20,9 +51,9 @@ function Note() {
     }[]
   >([]);
 
-  useEffect(() => {
-    if (!notes) return;
-  }, [notes]);
+  // useEffect(() => {
+  //   if (!notes) return;
+  // }, [notes]);
 
   const addComment = () => {
     if (!comment.trim()) return;
@@ -33,9 +64,11 @@ function Note() {
     setComment("");
   };
 
-  if (!note) return <>No found</>;
+  if (!note && !loader) return <>No found</>;
 
-  const { name, description, likedBy, createdAt, images } = note;
+  if (loader) return <>Please wait...</>;
+
+  const { name, description, likedBy, createdAt, images } = note!;
 
   return (
     <>
@@ -54,7 +87,7 @@ function Note() {
       <hr className="my-4" />
 
       <div
-        className="leading-8 text-muted-foreground"
+        className="leading-[40px] text-gray-950"
         dangerouslySetInnerHTML={{ __html: description }}
       />
 
