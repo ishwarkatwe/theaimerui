@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+// import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Label } from "@radix-ui/react-label";
 import { API_ADD_POST, API_CATEGORIES } from "../utils/constants/endpoints";
@@ -8,6 +8,8 @@ import useStore from "../utils/states/notes";
 import { useEffect, useState } from "react";
 import { showToast } from "../utils/toastr";
 import { useNavigate } from "react-router-dom";
+// import { Editor } from "primereact/editor";
+import RichEditor from "../common/richEditor";
 
 type Form = {
   title: string;
@@ -46,6 +48,7 @@ export default function App() {
   }, [user]);
 
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { errors },
@@ -102,12 +105,20 @@ export default function App() {
           <span className="text-red-500 text-xs">Category is required</span>
         )}
 
-        <Textarea
+        {/* <Textarea
           defaultValue=""
           className="h-96"
           placeholder="Content"
           {...register("content", { required: true })}
+        /> */}
+        <RichEditor
+          value={""}
+          onTextChange={(e: any) => {
+            setValue("content", e?.htmlValue);
+          }}
+          {...register("content", { required: true })}
         />
+
         {errors.content && (
           <span className="text-red-500 text-xs">Content is required</span>
         )}

@@ -21,7 +21,10 @@ function CardView(props: { item: Item; fullContent?: boolean }) {
                   <CardTitle className="my-2 text-2xl line-clamp-1 text-black">
                     {name}
                   </CardTitle>
-                  <p className="leading-7 text-lg line-clamp-2">{description}</p>
+                  <p
+                    className="leading-7 text-lg line-clamp-2"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  ></p>
 
                   <div className="flex flex-col">
                     {fullContent && (
